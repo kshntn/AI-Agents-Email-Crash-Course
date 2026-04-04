@@ -1,0 +1,162 @@
+{
+  "agent_name": "faq_agent_v2",
+  "system_prompt": [
+    "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance."
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "text_search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "How is the grading for peer-reviewed projects conducted in the course?",
+          "timestamp": "2026-04-04T13:25:03.576960+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-04T13:25:03.584553+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d58ab-21d8-723e-a67d-7a9af00584bc",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "args": "{\"query\":\"grading peer-reviewed projects\"}",
+          "tool_call_id": "call_o0ErryECsUyATv5A8eJvffMR",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 224,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 17,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T13:25:04.574102+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-04-04T13:24:55+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQvHb0F9yrOzFvilYB5od4RnF44YZ",
+      "finish_reason": "tool_call",
+      "run_id": "019d58ab-21d8-723e-a67d-7a9af00584bc",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "content": [
+            {
+              "id": "f04da64de9",
+              "question": "Can I have multiple Bruin projects inside the same Git repository?",
+              "sort_order": 3,
+              "content": "Yes, you can have multiple Bruin projects inside the same Git repository. However, bruin init automatically places the **.bruin.yml** config in the Git root, so you need to manually relocate the config file and explicitly tell Bruin where it lives.\n\nWhy this happens:\nWhen you run:\n```bash\nbruin init\n```\nBruin detects the nearest `.git` directory in the parent folders and creates the **.bruin.yml** there. So if your repository looks like this:\n```bash\nrepo/\n\u251c\u2500\u2500 .git/\n\u2514\u2500\u2500 data-platforms/\n```\nthe config file will be created in **repo/**, even if you run the command inside **data-platforms/**.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-5/003_f04da64de9_bruin-multi-projects-in-repo.md"
+            },
+            {
+              "id": "7c4d422363",
+              "question": "Docker: build error checking context: can\u2019t stat \u2018/home/fhrzn/Projects/\u2026./ny_taxi_postgres_data\u2019",
+              "sort_order": 27,
+              "content": "This issue occurs due to insufficient authorization rights to the host folder, which may cause it to appear empty.\n\n**Solution:**\n\nAdd permission for everyone to the folder:\n\n```bash\nsudo chmod -R 777 <path_to_folder>\n```\n\nExample:\n\n```bash\nsudo chmod -R 777 ny_taxi_postgres_data/\n```",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/027_7c4d422363_docker-build-error-checking-context-cant-stat-home.md"
+            },
+            {
+              "id": "3774a79c13",
+              "question": "Certificate: Do I need to do the homeworks to get the certificate?",
+              "sort_order": 14,
+              "content": "No, as long as you complete the peer-reviewed capstone projects on time, you can receive the certificate. You do not need to do the homeworks if you join late, for example.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/general/014_3774a79c13_certificate-do-i-need-to-do-the-homeworks-to-get-t.md"
+            },
+            {
+              "id": "ab1b812541",
+              "question": "How is my capstone project going to be evaluated?",
+              "sort_order": 2,
+              "content": "Each submitted project will be evaluated by three randomly assigned students who have also submitted the project.\n\nYou will also be responsible for grading projects from three fellow students yourself. Please note that not complying with this rule will result in failing to achieve the Certificate at the end of the course.\n\nThe final grade you receive will be the median score of the grades from peer reviewers.\n\nThe peer review criteria for evaluating or being evaluated must follow the guidelines defined [here](https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main/week_7_project#peer-review-criteria).",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/project/002_ab1b812541_how-is-my-capstone-project-going-to-be-evaluated.md"
+            },
+            {
+              "id": "900f60fd25",
+              "question": "Certificate - Can I follow the course in a self-paced mode and get a certificate?",
+              "sort_order": 15,
+              "content": "No, you can only get a certificate if you finish the course with a \u201clive\u201d cohort. We don't award certificates for the self-paced mode. The reason is you need to peer-review capstone(s) after submitting a project. You can only peer-review projects at the time the course is running.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/general/015_900f60fd25_certificate-can-i-follow-the-course-in-a-self-pace.md"
+            }
+          ],
+          "tool_call_id": "call_o0ErryECsUyATv5A8eJvffMR",
+          "metadata": null,
+          "timestamp": "2026-04-04T13:25:04.579100+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-04-04T13:25:04.582095+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d58ab-21d8-723e-a67d-7a9af00584bc",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "In the course, the grading for peer-reviewed projects is conducted as follows:\n\n1. Each submitted project will be evaluated by three randomly assigned peers, who are also students that have submitted their projects.\n2. You, as a participant, will also be responsible for grading three fellow students' projects.\n3. It is important to comply with this peer review requirement, as failure to do so will prevent you from earning the course certificate.\n4. The final grade for your project will be calculated as the median score from the grades given by your peer reviewers.\n\nFor detailed criteria on how to evaluate or be evaluated, you can refer to the guidelines provided in the course materials [here](https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main/week_7_project#peer-review-criteria) ([source](https://github.com/DataTalksClub/faq/blob/main/faq-main/_questions/data-engineering-zoomcamp/project/002_ab1b812541_how-is-my-capstone-project-going-to-be-evaluated.md)).",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1065,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 211,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T13:25:08.175074+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "stop",
+        "timestamp": "2026-04-04T13:24:56+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQvHcKlWK5VVeoarV6ppmBZV69tPK",
+      "finish_reason": "stop",
+      "run_id": "019d58ab-21d8-723e-a67d-7a9af00584bc",
+      "metadata": null
+    }
+  ],
+  "source": "ai-generated"
+}

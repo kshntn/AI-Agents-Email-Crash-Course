@@ -1,0 +1,162 @@
+{
+  "agent_name": "faq_agent_v2",
+  "system_prompt": [
+    "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance."
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "text_search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "How does DLT handle schema changes when ingesting data?",
+          "timestamp": "2026-04-04T16:43:38.763918+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-04T16:43:38.763918+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d5960-f18b-73e6-af77-f86b7dc422cd",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "args": "{\"query\":\"schema changes data ingestion DLT\"}",
+          "tool_call_id": "call_mNB6g2VC5uQgKtNWbrWySDyX",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 223,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 19,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T16:43:39.727397+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-04-04T16:43:30+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQyNmfff2wrPqTotWfmZmpAgBIHvm",
+      "finish_reason": "tool_call",
+      "run_id": "019d5960-f18b-73e6-af77-f86b7dc422cd",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "content": [
+            {
+              "id": "3a53549d08",
+              "question": "How does dlt handle schema evolution?",
+              "sort_order": 14,
+              "content": "dlt automatically detects and adapts to most schema changes during ingestion, so you usually don't need to manually alter tables.\n\nWhat happens when the source schema changes:\n- If new columns appear, dlt adds the new columns to the destination table.\n- If new nested fields appear, dlt also creates the required child tables or columns.\n- If existing columns disappear, the columns remain in the table (they are not dropped).\n- If existing columns change their data type, dlt will try to safely coerce the data; if that's not possible, it raises an error so you can handle it explicitly.\n\nHow it works under the hood:\ndlt infers the schema from the incoming data and it stores the schema and pipeline state locally (in the `.dlt` folder). On the next run, it compares the incoming data with the stored schema and applies the necessary migrations to the destination.\n\nWhy this is useful in the course:\n- You can ingest evolving APIs or semi-structured JSON without writing DDL.\n- Your pipelines keep working even when new fields appear.\n- It's safe for incremental loading \u2014 schema updates don't require a full refresh.\n\nWhen you may need to intervene:\n- If a column changes to an incompatible type\n- If you want to enforce a specific schema or data type\n- If you want to drop or rename columns\nIn those cases you can define the schema explicitly in your dlt resource.\n\nNote: If you want to know more, there is a page dedicated to schema evolution in the official dlt documentation: https://dlthub.com/docs/general-usage/schema-evolution",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/workshop-1-dlthub/014_3a53549d08_dlt-schema-evolution.md"
+            },
+            {
+              "id": "eaae17dfea",
+              "question": "Embedding dlt into Kestra",
+              "sort_order": 12,
+              "content": "```yaml\nid: dlt_ingestion\n\nnamespace: my.dlt\n\ndescription: \"Run dlt pipeline with Kestra\"\n\ntasks:\n\n- id: run_dlt\n\n  type: io.kestra.plugin.scripts.python.Commands\n\n  commands:\n\n  - |\n\n    import dlt\n\n    from my_dlt_pipeline import load_data  # Import your dlt function\n\n    pipeline = dlt.pipeline(\n\n      pipeline_name=\"kestra_pipeline\",\n\n      destination=\"duckdb\",\n\n      dataset_name=\"kestra_dataset\"\n\n    )\n\n    info = pipeline.run(load_data())\n\n    print(info)\n```",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/workshop-1-dlthub/012_eaae17dfea_embedding-dlt-into-kestra.md"
+            },
+            {
+              "id": "58586a16a6",
+              "question": "DBT: Why changing the target schema to \u201cmarts\u201d actually creates a schema named \u201cdbt_marts\u201d instead?",
+              "sort_order": 41,
+              "content": "It is a default behavior of dbt to [append custom schema to the initial schema](https://docs.getdbt.com/docs/build/custom-schemas#why-does-dbt-concatenate-the-custom-schema-to-the-target-schema). To override this behavior, create a macro named `generate_schema_name.sql`:\n\n```sql\n{% macro generate_schema_name(custom_schema_name, node) -%}\n\n{%- set default_schema = target.schema -%}\n\n{%- if custom_schema_name is none -%}\n\n{{ default_schema }}\n\n{%- else -%}\n\n{{ custom_schema_name | trim }}\n\n{%- endif -%}\n\n{%- endmacro %}\n```\n\nNow you can override the default custom schema in `dbt_project.yml`.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/041_58586a16a6_dbt-why-changing-the-target-schema-to-marts-actual.md"
+            },
+            {
+              "id": "27fa940238",
+              "question": "Problem with importing the dlt or dlt.sources module",
+              "sort_order": 7,
+              "content": "Make sure you don\u2019t have a `dlt.py` file saved in the same directory as your working file.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/workshop-1-dlthub/007_27fa940238_problem-with-importing-the-dlt-or-dltsources-modul.md"
+            },
+            {
+              "id": "cbeb6f678b",
+              "question": "How do I add the dlt MCP server in VS Code?",
+              "sort_order": 16,
+              "content": "- Open the command palette in VS Code:\n  - Windows: `Ctrl + Shift + P`\n  - Mac: `Cmd + Shift + P`\n- Run MCP: Add Server...\n- Select \"Command (stdio)\"\n- Type `uv run --with dlt[duckdb] --with dlt-mcp[search] python -m dlt_mcp` and press Enter.\n- Set the id to `dlt` and press Enter\n- Set the configuration target:\n  - `Remote` if you are using GitHub Codespaces\n  - `Workspace` otherwise\n\nTo verify that the MCP was added correctly:\n\n- Open the command palette\n- Type \"MCP: List Servers\"\n- You should see \"dlt Running\" (like in the attached screenshot)\n- If it is stopped, you can either:\n  - Start it by selecting it and choosing \"Start Server\"\n  - Prompt Copilot to use the mcp server (e.g. \"list the dlt pipelines\")\n\nLastly, make sure that when you initialize your dlt project (when you run `dlt init dlthub:taxi_pipeline duckdb`) you choose copilot as your agent.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/workshop-1-dlthub/016_cbeb6f678b_add-dlt-mcp-server-vscode.md"
+            }
+          ],
+          "tool_call_id": "call_mNB6g2VC5uQgKtNWbrWySDyX",
+          "metadata": null,
+          "timestamp": "2026-04-04T16:43:39.736430+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-04-04T16:43:39.738435+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d5960-f18b-73e6-af77-f86b7dc422cd",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "DLT (Data Load Tool) handles schema changes during data ingestion in a robust manner. Here\u2019s how it works:\n\n1. **Automatic Detection**: DLT automatically detects and adapts to most schema changes when ingesting data. This means you generally don't need to manually adjust the destination tables.\n\n2. **Handling Schema Changes**:\n   - **New Columns**: If new columns appear in the source schema, DLT adds these columns to the destination table.\n   - **New Nested Fields**: If new nested fields are introduced, DLT creates the necessary child tables or columns.\n   - **Disappearing Columns**: If existing columns are removed from the source schema, DLT keeps these columns in the destination table (they are not dropped).\n   - **Changing Data Types**: If a column's data type changes, DLT attempts to safely coerce the data. If coercion is not possible, DLT raises an error, prompting you to handle it specifically.\n\n3. **Schema Inference**: DLT infers the schema from the incoming data, storing the schema and pipeline state in a local directory. Each time it runs, it compares the incoming data with the stored schema and applies necessary migrations to the destination.\n\n4. **Ease of Use**: This capability allows you to work with evolving APIs or semi-structured JSON data without writing DDL (Data Definition Language). Your pipelines continue running smoothly even when new fields are introduced.\n\n5. **Manual Intervention**: While DLT automates this process, you might need to manually intervene in some scenarios:\n   - When a column undergoes an incompatible type change.\n   - If you want to enforce a specific schema or data type.\n   - If you wish to drop or rename columns, in which case you can define the schema explicitly in your DLT resource.\n\nFor more detailed information, you can visit the official DLT documentation on schema evolution: [Schema Evolution Documentation](https://dlthub.com/docs/general-usage/schema-evolution) [source](https://github.com/DataTalksClub/faq/blob/main/faq-main/_questions/data-engineering-zoomcamp/workshop-1-dlthub/014_3a53549d08_dlt-schema-evolution.md).",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1545,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 459,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T16:43:48.914399+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "stop",
+        "timestamp": "2026-04-04T16:43:31+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQyNnwzOO1gkbUvNvW4xMLqn7IHrP",
+      "finish_reason": "stop",
+      "run_id": "019d5960-f18b-73e6-af77-f86b7dc422cd",
+      "metadata": null
+    }
+  ],
+  "source": "ai-generated"
+}

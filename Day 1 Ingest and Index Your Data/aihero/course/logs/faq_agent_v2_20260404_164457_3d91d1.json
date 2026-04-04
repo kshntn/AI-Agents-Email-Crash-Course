@@ -1,0 +1,162 @@
+{
+  "agent_name": "faq_agent_v2",
+  "system_prompt": [
+    "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance."
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "text_search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "How do I correct the location of my dataset after uploading a GCP key to BigQuery?",
+          "timestamp": "2026-04-04T16:44:49.141544+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-04T16:44:49.144474+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d5962-0470-77d5-b262-35a67b179956",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "args": "{\"query\":\"correct location of dataset GCP key BigQuery\"}",
+          "tool_call_id": "call_iTUWk3a91WnZpPqFex12ld4D",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 230,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 22,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T16:44:50.096950+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-04-04T16:44:41+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQyOvHI6InO6FiknTxmxc06msZCjW",
+      "finish_reason": "tool_call",
+      "run_id": "019d5962-0470-77d5-b262-35a67b179956",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "content": [
+            {
+              "id": "04f55d5846",
+              "question": "BigQuery adapter: 404 Not found: Dataset was not found in location europe-west6",
+              "sort_order": 32,
+              "content": "1. Go to **Account settings** > **Project** > **Analytics**.\n2. Click on your connection.\n3. Scroll down to **Location** and type in the GCP location exactly as displayed in GCP (e.g., `europe-west6`). You might need to reupload your GCP key.\n\n4. Delete your dataset in Google BigQuery (GBQ).\n5. Rebuild the project using the command:\n   \n   ```bash\n   dbt build\n   ```\n\n6. The newly built dataset should be in the correct location.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/032_04f55d5846_bigquery-adapter-404-not-found-dataset-was-not-fou.md"
+            },
+            {
+              "id": "c180431de3",
+              "question": "DBT Cloud production error: prod dataset not available in location EU",
+              "sort_order": 4,
+              "content": "**Problem:**\n\nI am trying to deploy my DBT models to production using DBT Cloud. The data should reside in BigQuery with the dataset location as EU. However, when running the model in production, a prod dataset is incorrectly created in BigQuery with a location of US. This leads to the build failing with the error:\n\n```\nERROR 404: project.dataset:prod not available in location EU\n```\n\nI have attempted various fixes, but I'm unsure if there is a simpler solution than creating my projects or buckets in the US location.\n\nNote: Everything functions properly in development mode; the issue arises only during job scheduling and execution in production.\n\n**Solution:**\n\n1. Manually create the `prod` dataset in BigQuery with the EU location specified.\n2. Rerun the production job.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/004_c180431de3_dbt-cloud-production-error-prod-dataset-not-availa.md"
+            },
+            {
+              "id": "ba210ca8ef",
+              "question": "I changed location in dbt, but dbt run still gives me an error",
+              "sort_order": 28,
+              "content": "- Remove the dataset from BigQuery that was created by dbt.\n- Run `dbt run` again so that it will recreate the dataset in BigQuery with the correct location.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/028_ba210ca8ef_i-changed-location-in-dbt-but-dbt-run-still-gives.md"
+            },
+            {
+              "id": "9179edaff3",
+              "question": "Google Cloud BigQuery: Location Problems",
+              "sort_order": 66,
+              "content": "When running a query on BigQuery, you might encounter the error: **\"This table is not on the specified location\"**.\n\nTo resolve this issue, consider the following steps:\n\n- **Check the Locations**: Ensure the locations of your bucket, datasets, and tables are consistent. They should all reside in the same location.\n\n- **Modify Query Settings**:\n  1. Go to the query window.\n  2. Select **More** -> **Query Settings**.\n  3. Select the correct location.\n\n- **Verify Table Paths**: Double-check the paths in your query:\n  1. Click on the table.\n  2. Go to **Details**.\n  3. Copy the correct path.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/066_9179edaff3_google-cloud-bigquery-location-problems.md"
+            },
+            {
+              "id": "9f9a1b9e4f",
+              "question": "Terraform: Teardown of BigQuery Dataset",
+              "sort_order": 126,
+              "content": "When running `terraform destroy`, the following error can occur:\n\n```\nDo you really want to destroy all resources?\n\nTerraform will destroy all your managed infrastructure, as shown above.\n\nThere is no undo. Only 'yes' will be accepted to confirm.\n\nEnter a value: yes\n\ngoogle_bigquery_dataset.homework_dataset: Destroying... [id=projects/terraform-demo-449214/datasets/homework_dataset]\n\n\u2577\n\n\u2502 Error: Error when reading or editing Dataset: googleapi: Error 400: Dataset terraform-demo-449214:homework_dataset is still in use, resourceInUse\n```\n\nThis is because the dataset is still in use by a table. To delete the dataset, set the `delete_contents_on_destroy` property to `true` in the `main.tf` file.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/126_9f9a1b9e4f_terraform-teardown-of-bigquery-dataset.md"
+            }
+          ],
+          "tool_call_id": "call_iTUWk3a91WnZpPqFex12ld4D",
+          "metadata": null,
+          "timestamp": "2026-04-04T16:44:50.112737+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-04-04T16:44:50.112737+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d5962-0470-77d5-b262-35a67b179956",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "To correct the location of your dataset in BigQuery after uploading a GCP key, you can follow these steps:\n\n1. **Go to Your Account Settings**: Navigate to **Account settings** > **Project** > **Analytics**.\n2. **Select Your Connection**: Click on the connection associated with your project.\n3. **Update the Location**: Scroll down to the **Location** field and enter your GCP location exactly as it is displayed in GCP (e.g., `europe-west6`). You may need to reupload your GCP key after this step.\n4. **Delete the Existing Dataset**: It is necessary to delete your existing dataset in Google BigQuery.\n5. **Rebuild the Project**: After the dataset has been deleted, run the command:\n   ```\n   dbt build\n   ```\n   This command will create a new dataset in the correct location.\n\nBy following these steps, your dataset should be adjusted to the correct GCP location. \n\nFor further details, refer to the original source: [BigQuery adapter: 404 Not found: Dataset was not found in location europe-west6](https://github.com/DataTalksClub/faq/blob/main/faq-main/_questions/data-engineering-zoomcamp/module-4/032_04f55d5846_bigquery-adapter-404-not-found-dataset-was-not-fou.md).",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1294,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 284,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T16:44:57.276564+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "stop",
+        "timestamp": "2026-04-04T16:44:42+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQyOwuP076DhwtqHbaDnat9w0noLK",
+      "finish_reason": "stop",
+      "run_id": "019d5962-0470-77d5-b262-35a67b179956",
+      "metadata": null
+    }
+  ],
+  "source": "ai-generated"
+}

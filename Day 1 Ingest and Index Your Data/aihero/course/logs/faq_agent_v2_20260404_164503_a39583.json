@@ -1,0 +1,162 @@
+{
+  "agent_name": "faq_agent_v2",
+  "system_prompt": [
+    "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance."
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "text_search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "What should I do if I receive an error indicating that a dataset is still in use when running terraform destroy?",
+          "timestamp": "2026-04-04T16:44:57.286972+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-04T16:44:57.290480+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d5962-2443-73ba-bb36-964fecaa710a",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "args": "{\"query\":\"terraform destroy dataset in use\"}",
+          "tool_call_id": "call_yGmcenUQ83JGebO9uEo6B5HD",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 233,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 18,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T16:44:58.034277+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-04-04T16:44:49+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQyP3x7zpjQC68a6YtUBqS5HHXIIN",
+      "finish_reason": "tool_call",
+      "run_id": "019d5962-2443-73ba-bb36-964fecaa710a",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "content": [
+            {
+              "id": "9f9a1b9e4f",
+              "question": "Terraform: Teardown of BigQuery Dataset",
+              "sort_order": 126,
+              "content": "When running `terraform destroy`, the following error can occur:\n\n```\nDo you really want to destroy all resources?\n\nTerraform will destroy all your managed infrastructure, as shown above.\n\nThere is no undo. Only 'yes' will be accepted to confirm.\n\nEnter a value: yes\n\ngoogle_bigquery_dataset.homework_dataset: Destroying... [id=projects/terraform-demo-449214/datasets/homework_dataset]\n\n\u2577\n\n\u2502 Error: Error when reading or editing Dataset: googleapi: Error 400: Dataset terraform-demo-449214:homework_dataset is still in use, resourceInUse\n```\n\nThis is because the dataset is still in use by a table. To delete the dataset, set the `delete_contents_on_destroy` property to `true` in the `main.tf` file.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/126_9f9a1b9e4f_terraform-teardown-of-bigquery-dataset.md"
+            },
+            {
+              "id": "76f95c1d28",
+              "question": "Terraform: Terraform initialized in an empty directory! The directory has no Terraform configuration files. You may begin working with Terraform immediately by creating Terraform configuration files.",
+              "sort_order": 122,
+              "content": "This error occurs when `terraform init` is run outside the working directory.\n\nTo resolve this issue:\n\n1. Navigate to the working directory that contains your Terraform configuration files.\n2. Run the `terraform init` command inside the correct directory.\n\nMake sure your configuration files (e.g., .tf files) are present in the directory before running the command.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/122_76f95c1d28_terraform-terraform-initialized-in-an-empty-direct.md"
+            },
+            {
+              "id": "a5a163f51d",
+              "question": "Terraform: Install for WSL",
+              "sort_order": 116,
+              "content": "You can configure Terraform on Windows 10 using the Linux Subsystem (WSL) by following this guide: [Configuring Terraform on Windows 10 Linux Subsystem](https://techcommunity.microsoft.com/t5/azure-developer-community-blog/configuring-terraform-on-windows-10-linux-sub-system/ba-p/393845).",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/116_a5a163f51d_terraform-install-for-wsl.md"
+            },
+            {
+              "id": "d0f76f4669",
+              "question": "Terraform: Where can I find the Terraform 1.1.3 Linux (AMD 64)?",
+              "sort_order": 121,
+              "content": "Here: [https://releases.hashicorp.com/terraform/1.1.3/terraform_1.1.3_linux_amd64.zip](https://releases.hashicorp.com/terraform/1.1.3/terraform_1.1.3_linux_amd64.zip)",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/121_d0f76f4669_terraform-where-can-i-find-the-terraform-113-linux.md"
+            },
+            {
+              "id": "feb57d99da",
+              "question": "Terraform: Error acquiring the state lock",
+              "sort_order": 117,
+              "content": "For more information, you can refer to the following issue on GitHub:\n\n[HashiCorp Terraform Issue #14513](https://github.com/hashicorp/terraform/issues/14513)",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/117_feb57d99da_terraform-error-acquiring-the-state-lock.md"
+            }
+          ],
+          "tool_call_id": "call_yGmcenUQ83JGebO9uEo6B5HD",
+          "metadata": null,
+          "timestamp": "2026-04-04T16:44:58.047379+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-04-04T16:44:58.047379+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d5962-2443-73ba-bb36-964fecaa710a",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "If you encounter an error indicating that a dataset is still in use when running `terraform destroy`, it typically means the dataset is being referenced by another resource, such as a table. To resolve this issue, you can modify your Terraform configuration.\n\nYou should set the `delete_contents_on_destroy` property to `true` in your `main.tf` file. This change allows Terraform to delete all contents (tables or views) within the dataset before removing the dataset itself.\n\nHere's a brief example of how you could adjust your dataset resource definition:\n\n```hcl\nresource \"google_bigquery_dataset\" \"homework_dataset\" {\n  dataset_id = \"homework_dataset\"\n  location   = \"US\"\n  delete_contents_on_destroy = true\n}\n```\n\nAfter making this change, you can try running `terraform destroy` again.\n\nYou can read more about this error and solution in the [Terraform: Teardown of BigQuery Dataset](https://github.com/DataTalksClub/faq/blob/main/_questions/data-engineering-zoomcamp/module-1/126_9f9a1b9e4f_terraform-teardown-of-bigquery-dataset.md) document.",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1043,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 237,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T16:45:03.384432+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "stop",
+        "timestamp": "2026-04-04T16:44:50+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQyP4oGfFjJ0vHp4F2XSYLc38UlkS",
+      "finish_reason": "stop",
+      "run_id": "019d5962-2443-73ba-bb36-964fecaa710a",
+      "metadata": null
+    }
+  ],
+  "source": "ai-generated"
+}

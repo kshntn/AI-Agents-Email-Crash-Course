@@ -1,0 +1,169 @@
+{
+  "agent_name": "faq_agent_v2",
+  "system_prompt": [
+    "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance."
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "text_search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "What causes the ArrowInvalid error when reading parquets from nyc.gov and how can I fix it?",
+          "timestamp": "2026-04-04T16:44:03.982527+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-04T16:44:03.982527+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d5961-540e-71a1-9126-a86522d52738",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "args": "{\"query\":\"ArrowInvalid error when reading parquets from nyc.gov\"}",
+          "tool_call_id": "call_g5xQY098IuIjTOW4XZ3HvppK",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 232,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 24,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T16:44:04.928275+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-04-04T16:43:56+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQyOCSMVquKiEu9vGqsByjyltfGU5",
+      "finish_reason": "tool_call",
+      "run_id": "019d5961-540e-71a1-9126-a86522d52738",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "content": [
+            {
+              "id": "5e0cffbc79",
+              "question": "Homework: Reading parquets from nyc.gov directly into pandas returns Out of bounds error",
+              "sort_order": 37,
+              "content": "If you try to read parquets directly from nyc.gov\u2019s cloudfront into pandas, you might encounter this error:\n\n```python\npyarrow.lib.ArrowInvalid: Casting from timestamp[us] to timestamp[ns] would result in out of bounds\n```\n\n### Cause:\n\nThere is a data record where `dropOff_datetime` is set to the year 3019 instead of 2019. \n\nPandas uses \"timestamp[ns]\" and `int64` only allows a ~580-year range, centered on 2000. See `pd.Timestamp.max` and `pd.Timestamp.min`.\n\nThis becomes out of bounds when pandas tries to read it because 3019 > 2300 (approx value of `pd.Timestamp.max`).\n\n### Fix:\n\n1. **Use pyarrow to read the data:**\n\n   ```python\n   import pyarrow.parquet as pq\n   df = pq.read_table('fhv_tripdata_2019-02.parquet').to_pandas(safe=False)\n   ```\n\n   This will result in unusual timestamps for the offending record.\n\n2. **Read datetime columns separately:**\n\n   ```python\n   table = pq.read_table('taxi.parquet')\n   datetimes = ['list of datetime column names']\n   df_dts = pd.DataFrame()\n\n   for col in datetimes:\n       df_dts[col] = pd.to_datetime(table.column(col), errors='coerce')\n   ```\n\n   The `errors='coerce'` parameter will convert out-of-bounds timestamps into either the max or min.\n\n3. **Remove the offending rows using filter:**\n\n   ```python\n   import pyarrow.compute as pc\n\n   table = pq.read_table('taxi.parquet')\n\n   df = table.filter(\n       pc.less_equal(table[\"dropOff_datetime\"], pa.scalar(pd.Timestamp.max))\n   ).to_pandas()\n   ```",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-3/037_5e0cffbc79_homework-reading-parquets-from-nycgov-directly-int.md"
+            },
+            {
+              "id": "a340ad48c5",
+              "question": "Spark fails when reading from BigQuery and using `.show()` on `SELECT` queries",
+              "sort_order": 23,
+              "content": "I got it working using `gcs-connector-hadoop-2.2.5-shaded.jar` and Spark 3.1.\n\nI also added the `google_credentials.json` and `.p12` to authenticate with GCS. These files are downloadable from the GCP Service account.\n\nTo create the SparkSession:\n\n```python\nspark = SparkSession.builder.master('local[*]') \\\n    .appName('spark-read-from-bigquery') \\\n    .config('BigQueryProjectId', 'razor-project-xxxxxxx') \\\n    .config('BigQueryDatasetLocation', 'de_final_data') \\\n    .config('parentProject', 'razor-project-xxxxxxx') \\\n    .config(\"google.cloud.auth.service.account.enable\", \"true\") \\\n    .config(\"credentialsFile\", \"google_credentials.json\") \\\n    .config(\"GcpJsonKeyFile\", \"google_credentials.json\") \\\n    .config(\"spark.driver.memory\", \"4g\") \\\n    .config(\"spark.executor.memory\", \"2g\") \\\n    .config(\"spark.memory.offHeap.enabled\", True) \\\n    .config(\"spark.memory.offHeap.size\", \"5g\") \\\n    .config('google.cloud.auth.service.account.json.keyfile', \"google_credentials.json\") \\\n    .config(\"fs.gs.project.id\", \"razor-project-xxxxxxx\") \\\n    .config(\"fs.gs.impl\", \"com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem\") \\\n    .config(\"fs.AbstractFileSystem.gs.impl\", \"com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS\") \\\n    .getOrCreate()\n```",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-6/023_a340ad48c5_spark-fails-when-reading-from-bigquery-and-using-s.md"
+            },
+            {
+              "id": "6435e27634",
+              "question": "Ingestion: When attempting to use the provided quick script to load trip data into GCS, you receive error Access Denied from the S3 bucket",
+              "sort_order": 14,
+              "content": "If the provided URL isn\u2019t working for you ([nyc-tlc.s3.amazonaws.com](https://nyc-tlc.s3.amazonaws.com/trip+data)/):\n\nWe can use the GitHub CLI to easily download the needed trip data from [GitHub](https://github.com/DataTalksClub/nyc-tlc-data) and manually upload to a GCS bucket.\n\nInstructions on how to download the CLI here: [GitHub](https://github.com/cli/cli)\n\nCommands to use:\n\n```bash\ngh auth login\n\ngh release list -R DataTalksClub/nyc-tlc-data\n\ngh release download yellow -R DataTalksClub/nyc-tlc-data\n\ngh release download green -R DataTalksClub/nyc-tlc-data\n```\n\nNow you can upload the files to a GCS bucket using the GUI.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/014_6435e27634_ingestion-when-attempting-to-use-the-provided-quic.md"
+            },
+            {
+              "id": "c549d24645",
+              "question": "Homework: Ingesting NYC TLC Data",
+              "sort_order": 73,
+              "content": "The easiest way to upload datasets from GitHub for the homework is by utilizing this script: [git_csv_to_gcs.py](https://github.com/inner-outer-space/de-zoomcamp-2024/blob/main/4-analytics-engineering/git_csv_to_gcs.py). It is similar to a script provided in `03-data-warehouse/extras/web_to_gcs.py`. <{IMAGE:image_id}>",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/073_c549d24645_homework-ingesting-nyc-tlc-data.md"
+            },
+            {
+              "id": "6affd2987c",
+              "images": [
+                {
+                  "description": "image #1",
+                  "id": "image_1",
+                  "path": "images/data-engineering-zoomcamp/image_1813f02b.png"
+                }
+              ],
+              "question": "Taxi Data: Yellow Taxi Trip Records downloading error",
+              "sort_order": 1,
+              "content": "When attempting to download the 2021 data from the [TLC website](https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page), you may encounter the following error:\n\n```bash\nERROR 403: Forbidden\n```\n\n<{IMAGE:image_1}>\n\nWe have a backup, so use it instead: [nyc-tlc-data](https://github.com/DataTalksClub/nyc-tlc-data)\n\nSo the link should be [yellow_tripdata_2021-01.csv.gz](https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz).\n\n**Note:** Make sure to [unzip the \"gz\" file](https://linuxize.com/post/how-to-unzip-gz-file/) (no, the \"unzip\" command won\u2019t work for this).",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/001_6affd2987c_taxi-data-yellow-taxi-trip-records-downloading-err.md"
+            }
+          ],
+          "tool_call_id": "call_g5xQY098IuIjTOW4XZ3HvppK",
+          "metadata": null,
+          "timestamp": "2026-04-04T16:44:04.932277+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-04-04T16:44:04.932277+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d5961-540e-71a1-9126-a86522d52738",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "The `ArrowInvalid` error when reading parquet files from nyc.gov usually occurs due to problematic datetime entries in the data. Specifically, a common issue is the presence of out-of-bounds timestamps. For instance, reports indicate that some records have a `dropOff_datetime` set to the year 3019 instead of within the expected range (like 2019). Since pandas uses `timestamp[ns]`, the integer representation of timestamps is limited to around a 580-year range, which leads to this error when out-of-bound values are encountered.\n\n### How to Fix the Error\n\n1. **Use `pyarrow` to Read the Data:**\n   Instead of using pandas directly, read the data using `pyarrow` which can handle unusual timestamps better:\n   ```python\n   import pyarrow.parquet as pq\n   df = pq.read_table('fhv_tripdata_2019-02.parquet').to_pandas(safe=False)\n   ```\n   This will allow you to read the data without triggering the `ArrowInvalid` error, but keep in mind that the problematic records may result in unconventional timestamps.\n\n2. **Read Datetime Columns Separately:**\n   You can read datetime columns individually and handle errors:\n   ```python\n   table = pq.read_table('taxi.parquet')\n   datetimes = ['list of datetime column names']\n   df_dts = pd.DataFrame()\n\n   for col in datetimes:\n       df_dts[col] = pd.to_datetime(table.column(col), errors='coerce')\n   ```\n   The `errors='coerce'` option converts out-of-bounds timestamps into `NaT`.\n\n3. **Remove Offending Rows:**\n   Another approach is to filter out rows with out-of-bounds timestamps:\n   ```python\n   import pyarrow.compute as pc\n\n   table = pq.read_table('taxi.parquet')\n\n   df = table.filter(\n       pc.less_equal(table[\"dropOff_datetime\"], pa.scalar(pd.Timestamp.max))\n   ).to_pandas()\n   ```\n\nThese strategies can help you mitigate the `ArrowInvalid` error and handle the data more gracefully. \n\nFor more detailed guidance, you can refer to the original discussion in the course material: [FAQ on ArrowInvalid error](https://github.com/DataTalksClub/faq/blob/main/faq-main/_questions/data-engineering-zoomcamp/module-3/037_5e0cffbc79_homework-reading-parquets-from-nycgov-directly-int.md).",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1945,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 508,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T16:44:16.759298+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "stop",
+        "timestamp": "2026-04-04T16:43:57+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQyODr8W2nbMbxrIJ03hfRgB77ZoC",
+      "finish_reason": "stop",
+      "run_id": "019d5961-540e-71a1-9126-a86522d52738",
+      "metadata": null
+    }
+  ],
+  "source": "ai-generated"
+}

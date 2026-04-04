@@ -1,0 +1,169 @@
+{
+  "agent_name": "faq_agent_v2",
+  "system_prompt": [
+    "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance."
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "text_search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "What should I do if I encounter a 'not found' error when using gcloud in VS Code with WSL2?",
+          "timestamp": "2026-04-04T13:25:14.372970+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-04T13:25:14.372970+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d58ab-4c04-74e8-a0bb-13374b4cfe84",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "args": "{\"query\":\"not found error gcloud VS Code WSL2\"}",
+          "tool_call_id": "call_GOV06mbWXpXlV8maOm9DpGYN",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 236,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 23,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T13:25:15.188618+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-04-04T13:25:06+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQvHmn25PXEaincLYFvQ7Rdj7heUa",
+      "finish_reason": "tool_call",
+      "run_id": "019d58ab-4c04-74e8-a0bb-13374b4cfe84",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "content": [
+            {
+              "id": "af2b85f346",
+              "question": "GCP gcloud + MS VS Code - gcloud auth hangs",
+              "sort_order": 113,
+              "content": "If you are using MS VS Code and running `gcloud` in WSL2, when you first try to login to GCP via the `gcloud` CLI with `gcloud auth application-default login`, you may encounter an issue where the terminal prints a long OAuth URL and then shows a series of \"not found\" errors for browsers:\n\n```\nYour browser has been opened to visit:\n    https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=...\n\n/usr/bin/xdg-open: 882: x-www-browser: not found\n/usr/bin/xdg-open: 882: firefox: not found\n/usr/bin/xdg-open: 882: chromium: not found\n...\nxdg-open: no method available for opening '...'\n```\n\nVS Code may show a notification: \"Your application running on port 8085 is available\" with an \"Open in Browser\" button. Clicking it may lead to an error page.\n\n**Solution:**\n\n1. Hover over the long OAuth URL in the terminal output.\n2. `Ctrl + Click` the link \u2014 VS Code will show a dialog: \"Do you want Code to open the external website?\" with buttons **Open**, **Copy**, **Configure Trusted Domains**, and **Cancel**.\n3. Click **Configure Trusted Domains**.\n4. A dropdown will appear with options like:\n   - \"Trust https://accounts.google.com\"\n   - \"Trust google.com and all its subdomains\"\n   - \"Trust all domains (disables link protection)\"\n   - \"Manage Trusted Domains\"\n5. Pick the first or second entry (e.g., \"Trust https://accounts.google.com\").\n\nNext time you run `gcloud auth`, the login page should pop up via the default browser without issues.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/113_af2b85f346_gcp-gcloud-ms-vs-code-gcloud-auth-hangs.md"
+            },
+            {
+              "id": "0cc94bef66",
+              "images": [
+                {
+                  "description": "image #1",
+                  "id": "image_1",
+                  "path": "images/data-engineering-zoomcamp/image_ea5934b5.png"
+                }
+              ],
+              "question": "Docker: Connecting from VS Code",
+              "sort_order": 33,
+              "content": "It\u2019s very easy to manage your Docker container, images, network, and compose projects from VS Code.\n\n- Install the [official extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) and launch it from the left side icon.\n\n  <{IMAGE:image_1}>\n\n- It will work even if your Docker runs on WSL2, as VS Code can easily connect with your Linux.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/033_0cc94bef66_docker-connecting-from-vs-code.md"
+            },
+            {
+              "id": "9c40a115f8",
+              "question": "\u2018taxi_zone_lookup\u2019 not found",
+              "sort_order": 48,
+              "content": "Check the `.gitignore` file and make sure you don\u2019t have `*.csv` in it.\n\nIf you're encountering a dbt error with the following message:\n\n```\nRuntime Error in rpc request (from remote system.sql)\n404 Not found: Table dtc-de-0315:trips_data_all.green_tripdata_partitioned was not found in location europe-west6\nLocation: europe-west6\nJob ID: 168ee9bd-07cd-4ca4-9ee0-4f6b0f33897c\n```\n\n- Verify that all your datasets are configured with the correct region. For example, use `europe-west6` instead of a general region like `EU`.\n- To update the region in dbt settings:\n  - Go to `dbt -> projects -> optional settings` \n  - Manually set the location to match the required region.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/048_9c40a115f8_taxi_zone_lookup-not-found.md"
+            },
+            {
+              "id": "e5dc51eac9",
+              "question": "VS Code: Tab using spaces",
+              "sort_order": 43,
+              "content": "Error:\n\n```\nMakefile:2: *** missing separator.  Stop.\n```\n\nSolution:\n\nTabs in documents should be converted to Tab instead of spaces. [Follow this stack](https://stackoverflow.com/questions/36814642/visual-studio-code-convert-spaces-to-tabs).",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/general/043_e5dc51eac9_vs-code-tab-using-spaces.md"
+            },
+            {
+              "id": "a07b793f65",
+              "question": "GCP BQ: \"bq: command not found\"",
+              "sort_order": 8,
+              "content": "Run the following command to check if \"BigQuery Command Line Tool\" is installed or not:\n\n```bash\ngcloud components list\n```\n\nYou can also use `bq.cmd` instead of `bq` to make it work.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-3/008_a07b793f65_gcp-bq-bq-command-not-found.md"
+            }
+          ],
+          "tool_call_id": "call_GOV06mbWXpXlV8maOm9DpGYN",
+          "metadata": null,
+          "timestamp": "2026-04-04T13:25:15.198085+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-04-04T13:25:15.200774+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d58ab-4c04-74e8-a0bb-13374b4cfe84",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "If you encounter a 'not found' error when using `gcloud` in VS Code with WSL2, particularly related to the OAuth process, follow these steps:\n\n1. When you run `gcloud auth application-default login`, it might print a long OAuth URL in the terminal along with errors indicating that certain browsers are not found, such as:\n   ```\n   /usr/bin/xdg-open: 882: x-www-browser: not found\n   ...\n   xdg-open: no method available for opening '...'\n   ```\n\n2. To resolve this issue:\n   - Hover over the long OAuth URL in the terminal output.\n   - Press `Ctrl + Click` on the link. VS Code will prompt you with a dialog asking if you want to open the external website.\n   - Click on **Configure Trusted Domains**.\n   - You will see a dropdown with options like:\n     - \"Trust https://accounts.google.com\"\n     - \"Trust google.com and all its subdomains\"\n     - \"Trust all domains (disables link protection)\"\n     - \"Manage Trusted Domains\"\n   - Select the appropriate option to trust the domain (e.g., \"Trust https://accounts.google.com\").\n\nAfter following these steps, the next time you run `gcloud auth`, the login page should open in your default browser without any issues.\n\nFor detailed instructions, refer to the source: [GCP gcloud + MS VS Code - gcloud auth hangs](https://github.com/DataTalksClub/faq/blob/main/faq-main/_questions/data-engineering-zoomcamp/module-1/113_af2b85f346_gcp-gcloud-ms-vs-code-gcloud-auth-hangs.md).",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1419,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 346,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T13:25:20.701514+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "stop",
+        "timestamp": "2026-04-04T13:25:06+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQvHmwyaSVpfhxQuVaB0zH8e3tGsz",
+      "finish_reason": "stop",
+      "run_id": "019d58ab-4c04-74e8-a0bb-13374b4cfe84",
+      "metadata": null
+    }
+  ],
+  "source": "ai-generated"
+}

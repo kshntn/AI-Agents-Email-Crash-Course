@@ -1,0 +1,162 @@
+{
+  "agent_name": "faq_agent_v2",
+  "system_prompt": [
+    "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance."
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "text_search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "How can I securely use service account credentials in a Kestra script?",
+          "timestamp": "2026-04-04T13:25:20.706577+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-04T13:25:20.706577+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d58ab-64c2-7647-99a0-9cb9c3fe6b2d",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "args": "{\"query\":\"securely use service account credentials in Kestra\"}",
+          "tool_call_id": "call_joib2BugztpdgRWKgfSSvJmb",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 225,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 22,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T13:25:21.634472+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-04-04T13:25:12+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQvHsbm13XhXVY3XrsISnI1eBOoF4",
+      "finish_reason": "tool_call",
+      "run_id": "019d58ab-64c2-7647-99a0-9cb9c3fe6b2d",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "content": [
+            {
+              "id": "06775a8677",
+              "question": "How can Kestra access service account credential?",
+              "sort_order": 8,
+              "content": "Do not directly add the content of service account credential JSON in Kestra script, especially if you are pushing to GitHub. Follow the instruction to add the service account as a secret [Configure Google Service Account](https://kestra.io/docs/how-to-guides/google-credentials#add-service-account-as-a-secret).\n\nWhen you need to use it in Kestra, you can pull it through `{{ secret('GCP_SERVICE_ACCOUNT') }}` in the `pluginDefaults`.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-2/008_06775a8677_how-can-kestra-access-service-account-credential.md"
+            },
+            {
+              "id": "aeaede4fd1",
+              "question": "How do I properly authenticate a Google Cloud Service Account in Kestra?",
+              "sort_order": 11,
+              "content": "Several authentication methods are available; here are some of the most straightforward approaches:\n\n### Method 1:\n\nUpdate your `docker-compose.yml` file as needed.\n\n### Method 2:\n\n1. **Store the Service Account as a Secret**  \n   Run this command, specifying the correct path to your `service-account.json` file and `.env_encoded`:\n\n   ```bash\n   # Example command: Adjust according to your environment\n   base64 /path/to/service-account.json > .env_encoded\n   ```\n\n2. **Modify `docker-compose.yml` to Include the Encoded Secrets**  \n   Insert the relevant configuration within your `docker-compose.yml`.\n\n3. **Configure Kestra Plugin Defaults**  \n   This ensures all GCP tasks use the secret automatically.\n\n4. **Verify it\u2019s Working in a Testing GCP Workflow**\n\nSee also related FAQs on updating the service account key, using secrets, and applying this method to other GCP tasks.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-2/011_aeaede4fd1_how-do-i-properly-authenticate-a-google-cloud-serv.md"
+            },
+            {
+              "id": "e65d3b95ab",
+              "question": "How do I update the Service Account key in Kestra?",
+              "sort_order": 11,
+              "content": "Generate a new key, re-run the Base64 command, and restart Kestra.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-2/011_e65d3b95ab_update-gcp-service-account-key-kestra.md"
+            },
+            {
+              "id": "06c61761df",
+              "question": "GCP: How do I create a service account key when 'service account key creation is disabled'?",
+              "sort_order": 138,
+              "content": "This error occurs when your organization has a policy that disables service account key creation. You can disable this policy using either the GCP Console or gcloud CLI.\n\n### Option 1: Using GCP Console\n\n1. Go to the [IAM dashboard](https://console.cloud.google.com/iam-admin/iam) (IAM & Admin > IAM)\n2. Press Ctrl + O and make sure you select your organization\n3. Click the \"Edit Principal\" button (pencil icon) next to your account\n4. Search for \"Organization Policy Administrator\" role, add it and click save\n5. On the left sidebar, go to [Organization Policies](https://console.cloud.google.com/iam-admin/orgpolicies/list)\n6. Look for the policy named \"Disable service account key creation\" that is active and select it\n7. Click on \"Manage policy\" then click on the drop down that says \"Enforced\", set it to \"Off\"\n8. Click \"Done\" and then the blue \"Set policy\" button\n\n### Option 2: Using gcloud CLI\n\n```bash\n# Get your organization ID\ngcloud organizations list\n\n# Get your account email\ngcloud auth list\n\n# Add policy admin role if needed\ngcloud organizations add-iam-policy-binding <ORGANIZATION_ID> \\\n  --member=\"user:<YOUR_ACCOUNT_EMAIL>\" \\\n  --role=\"roles/orgpolicy.policyAdmin\"\n\n# Delete the policy\ngcloud org-policies delete iam.disableServiceAccountKeyCreation \\\n  --organization=<ORGANIZATION_ID>\n```\n\nReference: [GCP Organization Policies](https://cloud.google.com/resource-manager/docs/secure-by-default-organizations#disable_organization_policies)",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/138_06c61761df_gcp-service-account-key-creation-disabled.md"
+            },
+            {
+              "id": "de1924abdb",
+              "question": "Terraform: Do I need to make another service account for Terraform before I get the keys (.json file)?",
+              "sort_order": 120,
+              "content": "One service account is enough for all the services/resources you'll use in this course. After you get the file with your credentials and set your environment variable, you should be good to go.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/120_de1924abdb_terraform-do-i-need-to-make-another-service-accoun.md"
+            }
+          ],
+          "tool_call_id": "call_joib2BugztpdgRWKgfSSvJmb",
+          "metadata": null,
+          "timestamp": "2026-04-04T13:25:21.651197+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-04-04T13:25:21.653201+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d58ab-64c2-7647-99a0-9cb9c3fe6b2d",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "To securely use service account credentials in a Kestra script, you should not directly include the content of the service account credential JSON in your scripts, especially if they are being shared or pushed to repositories like GitHub. Instead, you should follow this process:\n\n1. **Store the Service Account as a Secret**:\n   - Encode your service account JSON file using Base64 and store it securely. You can do this using the command:\n     ```bash\n     base64 /path/to/service-account.json > .env_encoded\n     ```\n   \n2. **Modify your `docker-compose.yml`**:\n   - Include the encoded secrets in your `docker-compose.yml` file to make sure they are correctly set up for Kestra to access.\n\n3. **Configure Kestra Plugin Defaults**:\n   - Configure the Kestra plugin defaults to pull the secret using the following syntax in your scripts:\n     ```plaintext\n     {{ secret('GCP_SERVICE_ACCOUNT') }}\n     ```\n   - This ensures all GCP tasks in your workflows will use the secret properly.\n\n4. **Test the Configuration**:\n   - Verify that the service account is working as expected by testing it in a GCP workflow.\n\nFollowing these steps helps maintain the security of your credentials by keeping them out of your scripts and using the secret management capabilities of Kestra. For more detailed instructions, visit the [Kestra documentation on using service account credentials](https://kestra.io/docs/how-to-guides/google-credentials#add-service-account-as-a-secret) and see the related FAQ for authentication methods [here](https://github.com/DataTalksClub/faq/blob/main/faq-main/_questions/data-engineering-zoomcamp/module-2/011_aeaede4fd1_how-do-i-properly-authenticate-a-google-cloud-serv.md).",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 1345,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 365,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T13:25:27.790017+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "stop",
+        "timestamp": "2026-04-04T13:25:13+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQvHtJpvWj9PHkh4TCGlp48rRYAWv",
+      "finish_reason": "stop",
+      "run_id": "019d58ab-64c2-7647-99a0-9cb9c3fe6b2d",
+      "metadata": null
+    }
+  ],
+  "source": "ai-generated"
+}

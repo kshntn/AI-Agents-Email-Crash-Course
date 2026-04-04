@@ -1,0 +1,191 @@
+{
+  "agent_name": "faq_agent_v2",
+  "system_prompt": [
+    "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance."
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "text_search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "What are the steps to deploy a dbt-core project to Google Cloud Composer?",
+          "timestamp": "2026-04-04T13:24:48.915993+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-04T13:24:48.917720+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d58aa-e88f-736f-88ca-1177fb6cdebf",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "args": "{\"query\":\"deploy dbt-core project Google Cloud Composer\"}",
+          "tool_call_id": "call_ZFoDg1v9mQ6XoHxtXD8c8gP3",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 227,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 21,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T13:24:49.612109+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-04-04T13:24:40+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQvHMxzw0V6DLLhGE1dwob283SmDB",
+      "finish_reason": "tool_call",
+      "run_id": "019d58aa-e88f-736f-88ca-1177fb6cdebf",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "content": [
+            {
+              "id": "e839b64165",
+              "images": [
+                {
+                  "description": "image #1",
+                  "id": "image_1",
+                  "path": "images/data-engineering-zoomcamp/image_bd4861e1.png"
+                }
+              ],
+              "question": "How to run a dbt-core project as an Airflow Task Group on Google Cloud Composer using a service account JSON key",
+              "sort_order": 14,
+              "content": "1. Install the [astronomer-cosmos](https://github.com/astronomer/astronomer-cosmos) package as a dependency. Refer to the installation guide [here](https://cloud.google.com/composer/docs/composer-2/install-python-dependencies#install_custom_packages_in_a_environment) and see a Terraform [example](https://github.com/wndrlxx/ca-trademarks-data-pipeline/blob/4e6a0e757495a99e01ff6c8b981a23d6dc421046/terraform/main.tf#L100).\n\n2. Create a new folder, `dbt/`, inside the `dags/` folder of your Composer GCP bucket and copy your dbt-core project there. See the [example](https://github.com/wndrlxx/ca-trademarks-data-pipeline/tree/4e6a0e757495a99e01ff6c8b981a23d6dc421046/dags/dbt/ca_trademarks_dp).\n\n3. Ensure your `profiles.yml` is configured to authenticate with a service account key. Refer to the BigQuery [example](https://docs.getdbt.com/docs/core/connect-data-platform/bigquery-setup#service-account-file).\n\n4. Create a new DAG using the `DbtTaskGroup` class. Use a `ProfileConfig` specifying a `profiles_yml_filepath` that points to the location of your JSON key file. See this [example](https://github.com/wndrlxx/ca-trademarks-data-pipeline/blob/4e6a0e757495a99e01ff6c8b981a23d6dc421046/dags/6_dbt_cosmos_task_group.py#L47).\n\nYour dbt lineage graph should now appear as tasks inside a task group like this:\n\n<{IMAGE:image_1}>",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/project/014_e839b64165_how-to-run-a-dbt-core-project-as-an-airflow-task-g.md"
+            },
+            {
+              "id": "fee87c684a",
+              "question": "DBT Deploy: Error When trying to run the dbt project on Prod",
+              "sort_order": 69,
+              "content": "When running the dbt project on production, ensure the following steps:\n\n1. **Pull Request and Merge**\n   - Make the pull request and merge the branch into the main.\n\n2. **Version Check**\n   - Ensure you have the latest version if changes were made to the repository elsewhere.\n\n3. **Project File Accessibility**\n   - Verify that the `dbt_project.yml` file is accessible to the project. If not, refer to the solution for the error: \"Dbt: This dbt Cloud run was cancelled because a valid dbt project was not found.\"\n\n4. **Dataset Consistency**\n   - Confirm that the name assigned to the dataset on BigQuery matches the name specified in the production environment configuration on dbt Cloud.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/069_fee87c684a_dbt-deploy-error-when-trying-to-run-the-dbt-projec.md"
+            },
+            {
+              "id": "df38a5d809",
+              "question": "How to use dbt-core with Athena?",
+              "sort_order": 18,
+              "content": "If you don\u2019t have access to dbt Cloud, which is natively supported by AWS, you can use the community-built [dbt-Athena Adapter](https://dbt-athena.github.io/) for dbt-Core. Here are some references:\n\n- [AWS Blog](https://aws.amazon.com/blogs/big-data/from-data-lakes-to-insights-dbt-adapter-for-amazon-athena-now-supported-in-dbt-cloud/)\n- [YouTube Tutorial](https://youtu.be/JEizJAaaBkg?si=niTYdWoeiyC_w3h7)\n- [dbt Guides: Athena](https://docs.getdbt.com/guides/athena?step=1)\n- [dbt Athena Setup Documentation](https://docs.getdbt.com/docs/core/connect-data-platform/athena-setup)\n\n### Key Features:\n\n- Enables dbt to work with AWS Athena using dbt Core\n- Allows data transformation using `CREATE TABLE AS` or `CREATE VIEW` SQL queries\n\n### Not Yet Supported Features:\n\n- Python models\n- Persisting documentation for views\n\nThis adapter can be a valuable resource for those who need to work with Athena using dbt Core.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/project/018_df38a5d809_how-to-use-dbt-core-with-athena.md"
+            },
+            {
+              "id": "a8e992c143",
+              "question": "dbt: Are there UI options for dbt Core like dbt Cloud?",
+              "sort_order": 84,
+              "content": "While dbt Core does not have an official UI like dbt Cloud, there are several tools available that provide UI functionality:\n\n- **Altimate's VS Code Extension**: \n  - Use the [VS Code dbt Power User extension](https://github.com/AltimateAI/vscode-dbt-power-user).\n  - Sign up for the community plan for free usage at [Altimate](https://app.myaltimate.com/register) and add the API into your VS Code extension.\n\n- **VSCode Snippets for dbt and Jinja**: \n  - Access the snippets package for SQL, YAML, and Markdown [here](https://github.com/bastienboutonnet/vscode-dbt).\n\n- **Monitoring with Elementary**:\n  - Monitor dbt projects using [Elementary](https://github.com/elementary-data/elementary).\n  - Learn more about its setup and features in this [Medium article](https://medium.com/@srinivas.dataengineer/supercharge-your-dbt-monitoring-with-elementary-data-0fac140a6f60).",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/084_a8e992c143_dbt-are-there-ui-options-for-dbt-core-like-dbt-clo.md"
+            },
+            {
+              "id": "dc51ef9830",
+              "images": [
+                {
+                  "description": "image #1",
+                  "id": "image_1",
+                  "path": "images/data-engineering-zoomcamp/image_c27ecb8e.png"
+                },
+                {
+                  "description": "image #2",
+                  "id": "image_2",
+                  "path": "images/data-engineering-zoomcamp/image_8b6478c1.png"
+                },
+                {
+                  "description": "image #3",
+                  "id": "image_3",
+                  "path": "images/data-engineering-zoomcamp/image_80992235.png"
+                },
+                {
+                  "description": "image #4",
+                  "id": "image_4",
+                  "path": "images/data-engineering-zoomcamp/image_cd924928.png"
+                }
+              ],
+              "question": "DBT Deploy: This dbt Cloud run was cancelled because a valid dbt project was not found.",
+              "sort_order": 67,
+              "content": "This issue occurs when the dbt project is moved to another directory in the repository or if you're on a different branch than expected.\n\n**Solution:**\n\n1. Navigate to the projects window on dbt Cloud.\n2. Go to Settings -> Edit.\n3. Add the directory path where the dbt project is located. Ensure that this path matches your file explorer path. For example:\n   \n   ```\n   /week5/taxi_rides_ny\n   ```\n\n4. Check that there are no files waiting to be committed to GitHub if you\u2019re running the job to deploy to PROD.\n\n<{IMAGE:image_1}>\n\n<{IMAGE:image_2}>\n\n5. Ensure the PROD environment is set up to check the main branch, or the specified branch.\n\nIn the image below, the branch \"ella2024\" is set to be checked as \"production-ready\" by the \"freshness\" check mark in PROD environment settings. Each time a branch is merged into \"ella2024\" and a PR is triggered, the CI check job initiates. Note that merging and closing the PR must be done manually.\n\n<{IMAGE:image_3}>\n\n6. Set up the PROD custom branch (if not the default main) in the Environment setup screen.\n\n<{IMAGE:image_4}>",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/067_dc51ef9830_dbt-deploy-this-dbt-cloud-run-was-cancelled-becaus.md"
+            }
+          ],
+          "tool_call_id": "call_ZFoDg1v9mQ6XoHxtXD8c8gP3",
+          "metadata": null,
+          "timestamp": "2026-04-04T13:24:49.616107+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-04-04T13:24:49.619106+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d58aa-e88f-736f-88ca-1177fb6cdebf",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "To deploy a dbt-core project to Google Cloud Composer, follow these steps:\n\n1. **Install Dependencies**: Install the [astronomer-cosmos](https://github.com/astronomer/astronomer-cosmos) package as a dependency. You can refer to the installation guide [here](https://cloud.google.com/composer/docs/composer-2/install-python-dependencies#install_custom_packages_in_a_environment) and check out a Terraform [example](https://github.com/wndrlxx/ca-trademarks-data-pipeline/blob/4e6a0e757495a99e01ff6c8b981a23d6dc421046/terraform/main.tf#L100).\n\n2. **Copy Project to GCP Bucket**: Create a new folder named `dbt/` inside the `dags/` folder of your Composer GCP bucket and copy your dbt-core project files there. For reference, you can view an [example structure](https://github.com/wndrlxx/ca-trademarks-data-pipeline/tree/4e6a0e757495a99e01ff6c8b981a23d6dc421046/dags/dbt/ca_trademarks_dp).\n\n3. **Configure Authentication**: Ensure that your `profiles.yml` is configured to authenticate with a service account key. You can refer to the BigQuery [configuration example](https://docs.getdbt.com/docs/core/connect-data-platform/bigquery-setup#service-account-file).\n\n4. **Create a DAG**: Make a new Directed Acyclic Graph (DAG) using the `DbtTaskGroup` class. This requires a `ProfileConfig` that specifies a `profiles_yml_filepath` pointing to the location of your JSON key file. You can view an [example DAG](https://github.com/wndrlxx/ca-trademarks-data-pipeline/blob/4e6a0e757495a99e01ff6c8b981a23d6dc421046/dags/6_dbt_cosmos_task_group.py#L47).\n\nAfter following these steps, your dbt lineage graph should appear as tasks inside a task group within Airflow.\n\nFor further assistance or detailed configurations, please check the source document: [How to run a dbt-core project as an Airflow Task Group on Google Cloud Composer](https://github.com/DataTalksClub/faq/blob/main/faq-main/_questions/data-engineering-zoomcamp/project/014_e839b64165_how-to-run-a-dbt-core-project-as-an-airflow-task-g.md).",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 2130,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 538,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T13:24:56.876936+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "stop",
+        "timestamp": "2026-04-04T13:24:41+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQvHNAdMqHTHon14YoBVGSsl59QD3",
+      "finish_reason": "stop",
+      "run_id": "019d58aa-e88f-736f-88ca-1177fb6cdebf",
+      "metadata": null
+    }
+  ],
+  "source": "ai-generated"
+}

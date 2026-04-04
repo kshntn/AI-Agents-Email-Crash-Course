@@ -1,0 +1,169 @@
+{
+  "agent_name": "faq_agent_v2",
+  "system_prompt": [
+    "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance."
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "text_search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "What are the steps to migrate from a dbt Cloud-managed repository to a GitHub repository?",
+          "timestamp": "2026-04-04T13:24:24.405608+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-04T13:24:24.407816+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d58aa-88d2-7150-8a83-f1801a61576e",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "args": "{\"query\":\"migrate from dbt Cloud-managed repository to GitHub repository\"}",
+          "tool_call_id": "call_gFTXIfDE8sYVrGykygkZNlby",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 230,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 25,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T13:24:25.482786+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-04-04T13:24:16+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQvGyoUkZU7kDU9XXYve7jx9NMsWX",
+      "finish_reason": "tool_call",
+      "run_id": "019d58aa-88d2-7150-8a83-f1801a61576e",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "content": [
+            {
+              "id": "c547b5d5e5",
+              "question": "How do I migrate from a dbt Cloud managed repository to a GitHub repository (and can I use a subfolder in my GitHub repo for the dbt project)?",
+              "sort_order": 60,
+              "content": "Steps to migrate from a dbt Cloud managed repository to a GitHub repository:\n\n1. Save and commit your progress in your dbt projects. This ensures your files are up-to-date before you download them.\n2. Go to your profile settings in dbt.\n3. Under 'Settings' on the left-hand side, click 'Projects'.\n4. Click your project name (e.g., 'taxi_rides_ny').\n5. Under 'Repository', click the link (e.g., 'git@github.com:dbt-cloud-managed...').\n6. Download the zip file of your repository (see instructions here). Unzip the file, then upload the files/folders for your dbt project in your Github repo.\n7. After your files are saved in your Github repo, go back to the 'Repository details' dbt page. Click 'Disconnect' and 'Confirm Disconnect'. This will remove dbt's managed repo from your project.\n8. Follow the instructions on the dbt page to link your Github account. You only need to give it access to the repo you are using for this project.\n9. The dbt page should prompt you to setup a repo for your project. Connect it to your GitHub repo.\n10. After your project is connected to your GitHub repo, go to 'Studio' to view your project. You should see the folders of your GitHub repo.\n11. Click 'Initiate project'. This will re-create dbt folders/files in the root (main area) of your repo.\n\nIf you want to work out of a subfolder of your repo for the dbt project, follow the following instructions. Please note that this is my best guess and is what has worked for me so far...\n\n(For example, I want all my dbt files in the \"Week_4\" folder of my \"DEZoomcamp\" repo.)\n\n1. KEEP the 'dbt_project.yml' file in the root of your repo. Go into the file and change the paths to include your subfolder. For example, I added \"Week_4/\" to the paths below.\n\n```yaml\n# These configurations specify where dbt should look for different types of files.\n# The `model-paths` config, for example, states that models in this project can be\n# found in the \"models/\" directory. You probably won't need to change these!\nmodel-paths: [\"Week_4/models\"]\nanalysis-paths: [\"Week_4/analyses\"]\ntest-paths: [\"Week_4/tests\"]\nseed-paths: [\"Week_4/seeds\"]\nmacro-paths: [\"Week_4/macros\"]\nsnapshot-paths: [\"Week_4/snapshots\"]\ntarget-path: \"Week_4/target\"  # directory which will store compiled SQL files\nclean-targets:                # directories to be removed by `dbt clean`\n- \"Week_4/target\"\n- \"Week_4/dbt_packages\"\n```\n2. Save your 'dbt_project.yml' file.\n3. Check the .gitignore file in the root of your repo. If it includes changes to account for dbt files, review and save the changes.\n4. Delete the duplicative files/folders that dbt created in the root of your repo. You shouldn't need these because you are using the dbt files/folders you already saved in your subfolder. (Note: The 'target' folder might re-appear when you begin to run dbt commands. This is okay -- just keep it.)\n5. If you copied an older version of the 'dbt_project.yml' file in your subfolder, delete it. (Make sure you are NOT deleting the version you just updated in the root of your repo.) _This is just to ensure you don't accidentally update the copy in the subfolder, which is not used by dbt._\n6. Test run your dbt files from the subfolder to confirm everything works.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/060_c547b5d5e5_migrate-dbt-cloud-to-github-subfolder.md"
+            },
+            {
+              "id": "87fddc59b7",
+              "question": "Setup: Failed to clone repository.",
+              "sort_order": 8,
+              "content": "Error: Failed to clone repository.\n\n```\n$ git clone git@github.com:DataTalksClub/data-engineering-zoomcamp.git /usr/src/develop/...\n\nCloning into '/usr/src/develop/...\n\nWarning: Permanently added '[github.com](http://github.com/),140.82.114.4' (ECDSA) to the list of known hosts.\n\ngit@github.com: Permission denied (publickey).\n\nfatal: Could not read from remote repository.\n```\n\n**Issue:** You don\u2019t have permissions to write to `DataTalksClub/data-engineering-zoomcamp.git`\n\n**Solutions:**\n\n1. **Clone the Forked Repository**\n   \n   Clone the repository using your forked repo, which contains your GitHub username. Then, specify the path as:\n   \n   ```\n   [your github username]/data-engineering-zoomcamp.git\n   ```\n\n2. **Create a Fresh Repo for dbt-lessons**\n   \n   Create a new repository for dbt-lessons. This approach is beneficial as it allows for branching and pull requests without affecting your other repositories. There's no need to create a subfolder for the dbt project files.\n\n3. **Use HTTPS Link**\n   \n   Switch to using an HTTPS link for cloning the repository if SSH access is not configured.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/008_87fddc59b7_setup-failed-to-clone-repository.md"
+            },
+            {
+              "id": "c7ca760fed",
+              "images": [
+                {
+                  "description": "image #1",
+                  "id": "image_1",
+                  "path": "images/data-engineering-zoomcamp/image_25bb53c3.png"
+                }
+              ],
+              "question": "How to set subdirectory of the github repository as the dbt project root",
+              "sort_order": 42,
+              "content": "There is a project setting which allows you to set `Project subdirectory` in dbt cloud:\n\n<{IMAGE:image_1}>",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/042_c7ca760fed_how-to-set-subdirectory-of-the-github-repository-a.md"
+            },
+            {
+              "id": "32a878b1d5",
+              "question": "Errors when I start the server in dbt cloud: Failed to start server. Permission denied (publickey)",
+              "sort_order": 9,
+              "content": "```\nFailed to start server. Permission denied (publickey). fatal: Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.\n```\n\nUse the deploy keys in dbt repo details to create a public key in your repo, the issue will be solved.\n\nSteps in detail:\n\n1. **Find dbt Cloud\u2019s SSH Key**\n   - In dbt Cloud, go to **Settings > Account Settings > SSH Keys**\n   - Copy the public SSH key displayed there.\n\n2. **Add It to GitHub**\n   - Go to **GitHub > Settings > SSH and GPG Keys**\n   - Click \"New SSH Key\", name it \"dbt Cloud\", and paste the key.\n   - Click \"Add SSH Key\".\n\n3. **Try Restarting dbt Cloud**",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-4/009_32a878b1d5_errors-when-i-start-the-server-in-dbt-cloud-failed.md"
+            },
+            {
+              "id": "dc06a38bc6",
+              "question": "How do I use Git / GitHub for this course?",
+              "sort_order": 42,
+              "content": "After you create a GitHub account, clone the course repo to your local machine using the process outlined in this video:\n\n[Git for Everybody: How to Clone a Repository from GitHub](https://www.youtube.com/watch?v=CKcqniGu3tA).\n\nHaving this local repository on your computer will make it easy to access the instructors\u2019 code and make pull requests if you want to add your own notes or make changes to the course content.\n\nYou will probably also create your own repositories to host your notes and versions of files. Here is a great tutorial that shows you how to do this:\n\n[How to Create a Git Repository](https://www.atlassian.com/git/tutorials/setting-up-a-repository).\n\nRemember to ignore large databases, .csv, and .gz files, and other files that should not be saved to a repository. Use `.gitignore` for this:\n\n[.gitignore file](https://www.atlassian.com/git/tutorials/saving-changes/gitignore).\n\n**Important:**\n\n**NEVER store passwords or keys in a git repo** (even if the repo is set to private). Put files containing sensitive information (.env, secret.json, etc.) in your `.gitignore`.\n\nThis is also a great resource: [Dangit, Git!?!](https://dangitgit.com/)",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/general/042_dc06a38bc6_how-do-i-use-git-github-for-this-course.md"
+            }
+          ],
+          "tool_call_id": "call_gFTXIfDE8sYVrGykygkZNlby",
+          "metadata": null,
+          "timestamp": "2026-04-04T13:24:25.493227+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-04-04T13:24:25.493227+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d58aa-88d2-7150-8a83-f1801a61576e",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "To migrate from a dbt Cloud-managed repository to a GitHub repository, follow these steps:\n\n1. **Save Your Progress**: Ensure that you have saved and committed all your changes in your dbt projects.\n\n2. **Access Project Settings**: Go to your profile settings in dbt and navigate to 'Settings', then the 'Projects' section.\n\n3. **Select Your Project**: Click on the name of your project (e.g., 'taxi_rides_ny').\n\n4. **Download Repository**: Under the 'Repository' section, find the link to your current repository and download the zip file of your repository.\n\n5. **Unzip and Upload**: Unzip the downloaded file and upload the contents to your GitHub repository.\n\n6. **Disconnect dbt Cloud Managed Repo**: Go back to the 'Repository details' page in dbt and click 'Disconnect', then 'Confirm Disconnect'.\n\n7. **Link GitHub Account**: Follow the instructions on the dbt page to link your GitHub account (providing access to the specific repo you are using).\n\n8. **Connect to GitHub Repo**: You will be prompted to set up a repository for your project, connect it to your newly uploaded GitHub repo.\n\n9. **Initialize Project**: After connecting, go to 'Studio' in dbt to view your project and click 'Initiate project' to re-create dbt folders/files in the root of your repo.\n\n10. **Working in a Subfolder (Optional)**: If you want to work out of a subfolder within your GitHub repository:\n   - Keep the `dbt_project.yml` file in the root of your repository and modify it to include subfolder paths.\n   - Save the `dbt_project.yml` and adjust the `.gitignore` if necessary.\n   - Clean up duplicate files in the root, and ensure that your updated `dbt_project.yml` file is not overwritten by an older version in the subfolder.\n\n11. **Test Your Setup**: Run your dbt files from the subfolder to confirm everything is working properly.\n\nFor further reference, you can look at the full explanation in the source document: [migrate from dbt Cloud-managed repository to GitHub](https://github.com/DataTalksClub/faq/blob/main/faq-main/_questions/data-engineering-zoomcamp/module-4/060_c547b5d5e5_migrate-dbt-cloud-to-github-subfolder.md).",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 2351,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 508,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T13:24:34.255765+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "stop",
+        "timestamp": "2026-04-04T13:24:17+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQvGzvjgmJul9nH42olrExUZ4CLzZ",
+      "finish_reason": "stop",
+      "run_id": "019d58aa-88d2-7150-8a83-f1801a61576e",
+      "metadata": null
+    }
+  ],
+  "source": "ai-generated"
+}

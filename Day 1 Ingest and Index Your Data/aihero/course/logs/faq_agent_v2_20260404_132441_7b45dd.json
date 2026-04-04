@@ -1,0 +1,162 @@
+{
+  "agent_name": "faq_agent_v2",
+  "system_prompt": [
+    "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance."
+  ],
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "tools": [
+    "text_search"
+  ],
+  "messages": [
+    {
+      "parts": [
+        {
+          "content": "Can I run the course without using a cloud platform?",
+          "timestamp": "2026-04-04T13:24:37.003053+00:00",
+          "part_kind": "user-prompt"
+        }
+      ],
+      "timestamp": "2026-04-04T13:24:37.003053+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d58aa-ba0b-72fc-917d-cedcf3fcf5b9",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "args": "{\"query\":\"run course without using cloud platform\"}",
+          "tool_call_id": "call_oPY1BB8RHUTCeArl3VvsWJHU",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "tool-call"
+        }
+      ],
+      "usage": {
+        "input_tokens": 222,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 19,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T13:24:37.716108+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "tool_calls",
+        "timestamp": "2026-04-04T13:24:28+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQvHArj3IdO59zhCjo8xqVMKOe7Mf",
+      "finish_reason": "tool_call",
+      "run_id": "019d58aa-ba0b-72fc-917d-cedcf3fcf5b9",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "tool_name": "text_search",
+          "content": [
+            {
+              "id": "9e508f2212",
+              "question": "Course: When does the course start?",
+              "sort_order": 1,
+              "content": "The next cohort starts January 12th, 2026. More info at [DTC](https://datatalks.club/blog/guide-to-free-online-courses-at-datatalks-club.html).\n\n- Register before the course starts using this [link](https://airtable.com/shr6oVXeQvSI5HuWD).\n- Join the [course Telegram channel with announcements](https://t.me/dezoomcamp).\n- Don\u2019t forget to register in DataTalks.Club's Slack and [join](https://datatalks.club/docs/general/slack/) the channel.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/general/001_9e508f2212_course-when-does-the-course-start.md"
+            },
+            {
+              "id": "77a076baa3",
+              "question": "Environment: The GCP and other cloud providers are unavailable in some countries. Is it possible to provide a guide to installing a home lab?",
+              "sort_order": 29,
+              "content": "You can do most of the course without a cloud. Almost everything we use (excluding BigQuery) can be run locally. We won\u2019t be able to provide guidelines for some things, but most of the materials are runnable without GCP.\n\nFor everything in the course, there\u2019s a local alternative. You could even do the whole course locally. Note that Homework 3 requires BigQuery.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/general/029_77a076baa3_environment-the-gcp-and-other-cloud-providers-are.md"
+            },
+            {
+              "id": "070766ca79",
+              "question": "Environment: Do we really have to use GitHub codespaces? I already have PostgreSQL & Docker installed.",
+              "sort_order": 24,
+              "content": "It's up to you which platform and environment you use for the course.\n\nGitHub Codespaces or GCP VM are just possible options, but you can do the entire course from your laptop.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/general/024_070766ca79_environment-do-we-really-have-to-use-github-codesp.md"
+            },
+            {
+              "id": "8c1d06d681",
+              "question": "Can I run Docker Engine directly in WSL2 (Ubuntu) without Docker Desktop?",
+              "sort_order": 136,
+              "content": "Yes. You can install and run **Docker Engine directly inside WSL2 (Ubuntu)** without Docker Desktop. This approach works well if you only need core Docker functionality (Docker CLI, Docker Compose, containers).",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/module-1/136_8c1d06d681_docker-engine-wsl2-ubuntu.md"
+            },
+            {
+              "id": "33fc260cd8",
+              "question": "Course: What can I do before the course starts?",
+              "sort_order": 5,
+              "content": "Start by installing and setting up all the dependencies and requirements:\n\n- Google Cloud account\n- Google Cloud SDK\n- Python 3 (installed with Anaconda)\n- Terraform\n- Git\n\nLook over the prerequisites and syllabus to see if you are comfortable with these subjects.",
+              "filename": "faq-main/_questions/data-engineering-zoomcamp/general/005_33fc260cd8_course-what-can-i-do-before-the-course-starts.md"
+            }
+          ],
+          "tool_call_id": "call_oPY1BB8RHUTCeArl3VvsWJHU",
+          "metadata": null,
+          "timestamp": "2026-04-04T13:24:37.722811+00:00",
+          "outcome": "success",
+          "part_kind": "tool-return"
+        }
+      ],
+      "timestamp": "2026-04-04T13:24:37.722811+00:00",
+      "instructions": "You are a helpful assistant for a course.  \n\nUse the search tool to find relevant information from the course materials before answering questions.  \n\nIf you can find specific information through search, use it to provide accurate answers.\n\nAlways include references by citing the filename of the source material you used.  \nWhen citing the reference, replace \"faq-main\" by the full path to the GitHub repository: \"https://github.com/DataTalksClub/faq/blob/main/\"\nFormat: [LINK TITLE](FULL_GITHUB_LINK)\n\nIf the search doesn't return relevant results, let the user know and provide general guidance.",
+      "kind": "request",
+      "run_id": "019d58aa-ba0b-72fc-917d-cedcf3fcf5b9",
+      "metadata": null
+    },
+    {
+      "parts": [
+        {
+          "content": "Yes, you can run the course without using a cloud platform. Most of the course materials can be executed locally, excluding only BigQuery, which requires cloud access. For instance, you can run everything else locally, and it's possible to complete the entire course without GCP or any cloud services. \n\nAdditionally, while GitHub Codespaces and GCP VM are options suggested for the course, you are free to use your own laptop and configure your environment as you see fit. Note that Homework 3 will require access to BigQuery, which is a cloud service.\n\nFor more details, you can refer to this information:\n- [Environment: The GCP and other cloud providers are unavailable in some countries. Is it possible to provide a guide to installing a home lab?](https://github.com/DataTalksClub/faq/blob/main/faq-main/_questions/data-engineering-zoomcamp/general/029_77a076baa3_environment-the-gcp-and-other-cloud-providers-are.md)\n- [Environment: Do we really have to use GitHub codespaces? I already have PostgreSQL & Docker installed.](https://github.com/DataTalksClub/faq/blob/main/faq-main/_questions/data-engineering-zoomcamp/general/024_070766ca79_environment-do-we-really-have-to-use-github-codesp.md)",
+          "id": null,
+          "provider_name": null,
+          "provider_details": null,
+          "part_kind": "text"
+        }
+      ],
+      "usage": {
+        "input_tokens": 948,
+        "cache_write_tokens": 0,
+        "cache_read_tokens": 0,
+        "output_tokens": 272,
+        "input_audio_tokens": 0,
+        "cache_audio_read_tokens": 0,
+        "output_audio_tokens": 0,
+        "details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "model_name": "gpt-4o-mini-2024-07-18",
+      "timestamp": "2026-04-04T13:24:41.761610+00:00",
+      "kind": "response",
+      "provider_name": "openai",
+      "provider_url": "https://api.openai.com/v1/",
+      "provider_details": {
+        "finish_reason": "stop",
+        "timestamp": "2026-04-04T13:24:29+00:00"
+      },
+      "provider_response_id": "chatcmpl-DQvHBxnDQJUhRwztC0iWZWARh2bbJ",
+      "finish_reason": "stop",
+      "run_id": "019d58aa-ba0b-72fc-917d-cedcf3fcf5b9",
+      "metadata": null
+    }
+  ],
+  "source": "ai-generated"
+}
